@@ -41,6 +41,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
     justifyContent: "center",
     padding: 20,
+    borderRadius: 10,
+    elevation: 10,
   },
   blue: {
     backgroundColor: "lightblue",
