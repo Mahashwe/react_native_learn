@@ -11,7 +11,6 @@ import Box from "@/components/box";
 export default function HomeScreen() {
   return (
     <View style={styles.container}>
-      <Text>Hello</Text>
       <Box style={{ backgroundColor: "pink" }}>Box 1</Box>
       <Box style={{ backgroundColor: "lightblue" }}>Box 2</Box>
       <Box style={{ backgroundColor: "lightgreen" }}>Box 3</Box>
@@ -25,5 +24,7 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     marginTop: 64,
+    borderWidth: 8,
+    borderColor: "black",
   },
 });
