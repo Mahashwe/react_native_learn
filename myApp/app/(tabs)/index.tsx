@@ -1,4 +1,13 @@
-import { Button, Platform, ScrollView, StyleSheet, View } from 'react-native';
+import {
+  ActivityIndicator,
+  Button,
+  Modal,
+  Platform,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  View,
+} from 'react-native';
 import { HelloWave } from '@/components/hello-wave';
 import ParallaxScrollView from '@/components/parallax-scroll-view';
 import { ThemedText } from '@/components/themed-text';
@@ -6,8 +15,12 @@ import { ThemedView } from '@/components/themed-view';
 import { Link } from 'expo-router';
 import { Text, Image } from 'react-native';
 const logo = require('../../assets/images/1.jpg');
+import { useState } from 'react';
 
 export default function HomeScreen() {
+  const [modalVisible, setModalVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
   return (
     <View
       style={{
@@ -18,6 +31,16 @@ export default function HomeScreen() {
       }}
     >
       <ScrollView>
+        {isLoading && (
+          <ActivityIndicator
+            size="large"
+            color="blue"
+            style={{ marginTop: 50, marginBottom: 50 }}
+          />
+        )}
+        <View style={{ height: 90 }} />
+        <Button title="Start Loading" onPress={() => setIsLoading(true)} />
+        <Button title="Stop Loading" onPress={() => setIsLoading(false)} />
         <Text
           style={{
             paddingTop: 50,
@@ -54,9 +77,30 @@ export default function HomeScreen() {
         <Image source={logo} style={{ width: 200, height: 200 }} />
         <Button
           color="blue"
-          onPress={() => alert('Button Clicked!')}
-          title="Click Me"
+          onPress={() => setModalVisible(true)}
+          title="Open Modal"
         />
+        <Modal
+          visible={modalVisible}
+          onRequestClose={() => setModalVisible(false)} //when user presses back button on Android or taps outside the modal on iOS modal will be closed
+          animationType="slide" //animation type for modal appearance
+        >
+          <View
+            style={{
+              flex: 1,
+              backgroundColor: 'lightblue',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <Text>Modal Content</Text>
+            <Button
+              title="Close Modal"
+              onPress={() => setModalVisible(false)}
+            />
+          </View>
+        </Modal>
+        <StatusBar backgroundColor="lightgreen" barStyle="dark-content" />
       </ScrollView>
     </View>
   );
