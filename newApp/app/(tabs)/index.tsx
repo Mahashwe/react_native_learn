@@ -35,8 +35,8 @@ const styles = StyleSheet.create({
   },
 
   box: {
-    width: 100,
-    height: 100,
+    width: 250,
+    height: 250,
     margin: 10,
     textAlign: "center",
     justifyContent: "center",
