@@ -16,6 +16,7 @@ import { Link } from 'expo-router';
 import { Text, Image } from 'react-native';
 const logo = require('../../assets/images/1.jpg');
 import { useState } from 'react';
+import { Greet } from '@/components/greet';
 
 export default function HomeScreen() {
   const [modalVisible, setModalVisible] = useState(false);
@@ -50,8 +51,9 @@ export default function HomeScreen() {
             textAlign: 'center',
           }}
         >
-          Hello World
+          Welcome to my App!
         </Text>
+        <Greet name="Maha" />
         <Image source={logo} style={{ width: 200, height: 200 }} />
         <Text
           style={{
