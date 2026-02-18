@@ -5,6 +5,7 @@ import {
   View,
   Text,
   useWindowDimensions,
+  ScrollView,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { HelloWave } from "@/components/hello-wave";
@@ -14,10 +15,51 @@ import { ThemedView } from "@/components/themed-view";
 import { Link } from "expo-router";
 import PokemonCard from "@/components/PokemonCard";
 
+const squirtleData = {
+  name: "Squirtle",
+  image: require("../../assets/images/1a.jpg"),
+  type: "Water",
+  hp: 44,
+  moves: ["Tackle", "Water Gun", "Tail Whip", "Bubble"],
+  weaknesses: ["Electric", "Grass"],
+};
+
+const pikachuData = {
+  name: "Pikachu",
+  image: require("../../assets/images/1b.png"),
+  type: "Electric",
+  hp: 35,
+  moves: ["Thunder Shock", "Quick Attack", "Thunderbolt", "Growl"],
+  weaknesses: ["Ground"],
+};
+
+const charmanderData = {
+  name: "Charmander",
+  image: require("../../assets/images/1c.png"),
+  type: "Fire",
+  hp: 39,
+  moves: ["Scratch", "Ember", "Growl", "Leer"],
+  weaknesses: ["Water", "Rock", "Ground"],
+};
+
+const poliwagData = {
+  name: "Poliwag",
+  image: require("../../assets/images/1d.jpg"),
+  type: "Water",
+  hp: 40,
+  moves: ["Bubble", "Hypnosis", "Water Gun", "Double Slap"],
+  weaknesses: ["Electric", "Grass"],
+};
+
 export default function HomeScreen() {
   return (
     <SafeAreaView style={styles.container}>
-      <PokemonCard />
+      <ScrollView>
+        <PokemonCard {...squirtleData} />
+        <PokemonCard {...pikachuData} />
+        <PokemonCard {...charmanderData} />
+        <PokemonCard {...poliwagData} />
+      </ScrollView>
     </SafeAreaView>
   );
 }
