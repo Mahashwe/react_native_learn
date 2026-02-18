@@ -1,5 +1,11 @@
 import { Image } from "expo-image";
-import { Platform, StyleSheet, View, Text, Dimensions } from "react-native";
+import {
+  Platform,
+  StyleSheet,
+  View,
+  Text,
+  useWindowDimensions,
+} from "react-native";
 
 import { HelloWave } from "@/components/hello-wave";
 import ParallaxScrollView from "@/components/parallax-scroll-view";
@@ -9,17 +15,33 @@ import { Link } from "expo-router";
 import Box from "@/components/box";
 
 export default function HomeScreen() {
+  const windowWidth = useWindowDimensions().width;
+  const windowHeight = useWindowDimensions().height;
   return (
     <View style={styles.container}>
-      <View style={styles.box}>
-        <Text style={styles.text}>Welcome</Text>
+      <View
+        style={[
+          styles.box,
+          {
+            width: windowWidth > 500 ? "60%" : "90%",
+            height: windowHeight > 500 ? "60%" : "90%",
+          },
+        ]}
+      >
+        <Text
+          style={[
+            styles.text,
+            {
+              fontSize: windowWidth > 500 ? 32 : 24,
+            },
+          ]}
+        >
+          Welcome
+        </Text>
       </View>
     </View>
   );
 }
-
-const windowWidth = Dimensions.get("window").width;
-const windowHeight = Dimensions.get("window").height;
 
 const styles = StyleSheet.create({
   container: {
@@ -29,15 +51,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   box: {
-    width: windowWidth > 500 ? "60%" : "90%",
-    height: windowHeight > 500 ? "60%" : "90%",
     backgroundColor: "lightblue",
     textAlign: "center",
     justifyContent: "center",
     alignItems: "center",
   },
   text: {
-    fontSize: windowWidth > 500 ? 32 : 24,
     color: "#ffffff",
     textAlign: "center",
     fontWeight: "bold",
