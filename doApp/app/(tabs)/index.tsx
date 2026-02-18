@@ -5,6 +5,7 @@ import {
   View,
   Text,
   useWindowDimensions,
+  SafeAreaView,
 } from "react-native";
 
 import { HelloWave } from "@/components/hello-wave";
@@ -18,32 +19,39 @@ export default function HomeScreen() {
   const windowWidth = useWindowDimensions().width;
   const windowHeight = useWindowDimensions().height;
   return (
-    <View style={styles.container}>
-      <View
-        style={[
-          styles.box,
-          {
-            width: windowWidth > 500 ? "60%" : "90%",
-            height: windowHeight > 500 ? "60%" : "90%",
-          },
-        ]}
-      >
-        <Text
+    <SafeAreaView style={styles.safecontainer}>
+      <View style={styles.container}>
+        <View
           style={[
-            styles.text,
+            styles.box,
             {
-              fontSize: windowWidth > 500 ? 32 : 24,
+              width: windowWidth > 500 ? "60%" : "90%",
+              height: windowHeight > 500 ? "60%" : "90%",
             },
           ]}
         >
-          Welcome
-        </Text>
+          <Text
+            style={[
+              styles.text,
+              {
+                fontSize: windowWidth > 500 ? 32 : 24,
+              },
+            ]}
+          >
+            Welcome
+          </Text>
+        </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  safecontainer: {
+    flex: 1,
+    backgroundColor: "plum",
+    paddingTop: Platform.OS === "android" ? 25 : 0,
+  },
   container: {
     flex: 1,
     backgroundColor: "plum",
@@ -57,7 +65,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   text: {
-    color: "#ffffff",
+    ...Platform.select({
+      ios: {
+        fontFamily: "Arial",
+        color: "#ffffff",
+      },
+      android: {
+        fontFamily: "Roboto",
+        color: "#dd0f0f",
+      },
+    }),
     textAlign: "center",
     fontWeight: "bold",
   },
