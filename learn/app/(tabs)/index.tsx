@@ -29,7 +29,7 @@ const pikachuData = {
   image: require("../../assets/images/1b.png"),
   type: "Electric",
   hp: 35,
-  moves: ["Thunder Shock", "Quick Attack", "Thunderbolt", "Growl"],
+  moves: ["Thunder Shock", "Quick Attack"],
   weaknesses: ["Ground"],
 };
 
@@ -47,7 +47,7 @@ const poliwagData = {
   image: require("../../assets/images/1d.jpg"),
   type: "Water",
   hp: 40,
-  moves: ["Bubble", "Hypnosis", "Water Gun", "Double Slap"],
+  moves: ["Bubble", "Hypnosis"],
   weaknesses: ["Electric", "Grass"],
 };
 
