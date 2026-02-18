@@ -30,6 +30,13 @@ export default function HomeScreen() {
               <Text style={styles.Cardtext}>{item.type}</Text>
             </View>
           )}
+          ListEmptyComponent={
+            <Text style={styles.Cardtext}>No Pokémon available</Text>
+          }
+          ListHeaderComponent={
+            <Text style={styles.Cardtext}>PokeMon List</Text>
+          }
+          ListFooterComponent={<Text style={styles.Cardtext}>End of List</Text>}
           contentContainerStyle={styles.scrollviewkey}
         />
       </SafeAreaView>
