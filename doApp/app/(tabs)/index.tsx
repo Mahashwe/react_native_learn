@@ -1,5 +1,5 @@
 import { Image } from "expo-image";
-import { Platform, StyleSheet, View, Text } from "react-native";
+import { Platform, StyleSheet, View, Text, Dimensions } from "react-native";
 
 import { HelloWave } from "@/components/hello-wave";
 import ParallaxScrollView from "@/components/parallax-scroll-view";
@@ -11,20 +11,35 @@ import Box from "@/components/box";
 export default function HomeScreen() {
   return (
     <View style={styles.container}>
-      <Box style={{ backgroundColor: "pink" }}>Box 1</Box>
-      <Box style={{ backgroundColor: "lightblue" }}>Box 2</Box>
-      <Box style={{ backgroundColor: "lightgreen" }}>Box 3</Box>
-      <Box style={{ backgroundColor: "red" }}>Box 4</Box>
-      <Box style={{ backgroundColor: "yellow" }}>Box 5</Box>
-      <Box style={{ backgroundColor: "orange" }}>Box 6</Box>
+      <View style={styles.box}>
+        <Text style={styles.text}>Welcome</Text>
+      </View>
     </View>
   );
 }
 
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
+
 const styles = StyleSheet.create({
   container: {
-    marginTop: 64,
-    borderWidth: 8,
-    borderColor: "black",
+    flex: 1,
+    backgroundColor: "plum",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  box: {
+    width: windowWidth > 500 ? "60%" : "90%",
+    height: windowHeight > 500 ? "60%" : "90%",
+    backgroundColor: "lightblue",
+    textAlign: "center",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  text: {
+    fontSize: windowWidth > 500 ? 32 : 24,
+    color: "#ffffff",
+    textAlign: "center",
+    fontWeight: "bold",
   },
 });
