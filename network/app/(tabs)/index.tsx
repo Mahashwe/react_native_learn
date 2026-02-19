@@ -6,6 +6,8 @@ import {
   Text,
   FlatList,
   ActivityIndicator,
+  TextInput,
+  Button,
 } from "react-native";
 
 import { HelloWave } from "@/components/hello-wave";
@@ -28,6 +30,10 @@ export default function HomeScreen() {
   const [data, setData] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
+  const [PostTitle, setPostTitle] = useState("");
+  const [PostBody, setPostBody] = useState("");
+  const [isposting, setIsPosting] = useState(false);
+
   const fetchData = async (limit = 10) => {
     try {
       const response = await fetch(
@@ -59,29 +65,82 @@ export default function HomeScreen() {
     setRefreshing(false);
   };
 
+  const addPost = async () => {
+    if (!PostTitle || !PostBody) {
+      alert("Please fill in both fields");
+      return;
+    }
+    setIsPosting(true);
+    try {
+      const response = await fetch(
+        "https://jsonplaceholder.typicode.com/posts",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            title: PostTitle,
+            body: PostBody,
+            userId: 1,
+          }),
+        },
+      );
+      const newPost = await response.json();
+      setData((prevData) => [newPost, ...prevData]);
+      setPostTitle("");
+      setPostBody("");
+    } catch (error) {
+      console.error("Error creating post:", error);
+    } finally {
+      setIsPosting(false);
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.ListContainer}>
-        <FlatList
-          ListHeaderComponent={() => (
-            <Text
-              style={{ fontSize: 24, fontWeight: "bold", marginBottom: 16 }}
-            >
-              Posts
-            </Text>
-          )}
-          data={data}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => (
-            <View style={styles.card}>
-              <Text style={{ fontWeight: "bold" }}>{item.title}</Text>
-              <Text>{item.body}</Text>
-            </View>
-          )}
-          refreshing={refreshing}
-          onRefresh={handleRefresh}
-        />
-      </View>
+      <>
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter post title"
+            value={PostTitle}
+            onChangeText={setPostTitle}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Enter post body"
+            value={PostBody}
+            onChangeText={setPostBody}
+          />
+          <Button
+            title={isposting ? "Posting..." : "Create Post"}
+            onPress={addPost}
+            disabled={isposting}
+          />
+        </View>
+        <View style={styles.ListContainer}>
+          <FlatList
+            ListHeaderComponent={() => (
+              <Text
+                style={{ fontSize: 24, fontWeight: "bold", marginBottom: 16 }}
+              >
+                Posts
+              </Text>
+            )}
+            data={data}
+            keyExtractor={(item) => item.id.toString()}
+            renderItem={({ item }) => (
+              <View style={styles.card}>
+                <Text style={{ fontWeight: "bold" }}>{item.title}</Text>
+                <Text>{item.body}</Text>
+              </View>
+            )}
+            refreshing={refreshing}
+            onRefresh={handleRefresh}
+          />
+        </View>
+      </>
     </SafeAreaView>
   );
 }
@@ -108,5 +167,18 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+  },
+  inputContainer: {
+    padding: 16,
+    backgroundColor: "#f0f0f0",
+  },
+  input: {
+    height: 40,
+    borderColor: "#ccc",
+    borderWidth: 1,
+    borderRadius: 8,
+    paddingHorizontal: 8,
+    marginBottom: 12,
+    backgroundColor: "white",
   },
 });
