@@ -1,103 +1,150 @@
-import { Image } from "expo-image";
+import { useState } from "react";
 import {
-  Platform,
-  SafeAreaViewBase,
-  StyleSheet,
-  TextInput,
   View,
   Text,
-  Switch,
+  TextInput,
+  Pressable,
+  StyleSheet,
+  KeyboardAvoidingView,
+  Platform,
+  Alert,
 } from "react-native";
-
-import { HelloWave } from "@/components/hello-wave";
-import ParallaxScrollView from "@/components/parallax-scroll-view";
-import { ThemedText } from "@/components/themed-text";
-import { ThemedView } from "@/components/themed-view";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Link } from "expo-router";
-import { useState } from "react";
 
-export default function HomeScreen() {
-  const [isDarkMode, setIsDarkMode] = useState(false);
+export default function LoginScreen() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const [errors, setErrors] = useState<{
+    username?: string;
+    password?: string;
+  }>({});
+
+  const validate = () => {
+    const newErrors: { username?: string; password?: string } = {};
+
+    const u = username.trim();
+    const p = password;
+
+    if (!u) newErrors.username = "Username is required.";
+    else if (u.length < 3)
+      newErrors.username = "Username must be at least 3 characters.";
+    else if (/\s/.test(u))
+      newErrors.username = "Username cannot contain spaces.";
+
+    if (!p) newErrors.password = "Password is required.";
+    else if (p.length < 6)
+      newErrors.password = "Password must be at least 6 characters.";
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleLogin = () => {
+    if (!validate()) return;
+
+    Alert.alert("Success", `Logged in as ${username.trim()}`);
+    // TODO: call API here
+  };
+
   return (
-    <View style={styles.container}>
-      <SafeAreaView>
-        <View>
-          <Text style={styles.title}>Welcome to the Tabs App!</Text>
+    <SafeAreaView style={styles.safe}>
+      <KeyboardAvoidingView
+        style={styles.container}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      >
+        <View style={styles.card}>
+          <Text style={styles.title}>Login</Text>
+
+          <Text style={styles.label}>Username</Text>
+          <TextInput
+            style={[styles.input, errors.username && styles.inputError]}
+            placeholder="Enter username"
+            value={username}
+            onChangeText={setUsername}
+            autoCapitalize="none"
+            autoCorrect={false}
+          />
+          {!!errors.username && (
+            <Text style={styles.error}>{errors.username}</Text>
+          )}
+
+          <Text style={styles.label}>Password</Text>
+          <TextInput
+            style={[styles.input, errors.password && styles.inputError]}
+            placeholder="Enter password"
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry
+            autoCapitalize="none"
+            autoCorrect={false}
+          />
+          {!!errors.password && (
+            <Text style={styles.error}>{errors.password}</Text>
+          )}
+
+          <Pressable onPress={handleLogin} style={styles.button}>
+            <Text style={styles.buttonText}>Login</Text>
+          </Pressable>
         </View>
-        <TextInput
-          style={styles.input}
-          placeholder="Username"
-          autoCapitalize="none"
-        />
-
-        <TextInput
-          style={[styles.input, styles.multiline]}
-          placeholder="Message"
-          multiline
-          numberOfLines={4}
-          autoCapitalize="none"
-        />
-
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          secureTextEntry
-          autoCapitalize="none"
-        />
-      </SafeAreaView>
-      <View style={styles.switchContainer}>
-        <Text style={styles.switchLabel}>Dark Mode</Text>
-        <Switch
-          value={isDarkMode}
-          onValueChange={() => setIsDarkMode((previousState) => !previousState)}
-          trackColor={{ false: "#484848", true: "#81b0ff" }}
-          thumbColor={isDarkMode ? "#f5dd4b" : "#f4f3f4"}
-        />
-      </View>
-    </View>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 }
+
 const styles = StyleSheet.create({
+  safe: {
+    flex: 1,
+    backgroundColor: "white",
+  },
   container: {
     flex: 1,
     justifyContent: "center",
     padding: 20,
-    backgroundColor: "#9cbbf9",
   },
-  form: {
-    gap: 15,
-    color: "#fffefe",
+  card: {
+    padding: 18,
+    borderWidth: 1,
+    borderColor: "#ddd",
+    borderRadius: 12,
+    backgroundColor: "white",
+    gap: 8,
+  },
+  title: {
+    fontSize: 26,
+    fontWeight: "700",
+    marginBottom: 8,
+  },
+  label: {
+    fontSize: 14,
+    fontWeight: "600",
+    marginTop: 8,
   },
   input: {
     borderWidth: 1,
-    borderColor: "#fffefe",
-    padding: 12,
+    borderColor: "#ccc",
+    paddingHorizontal: 12,
+    paddingVertical: 10,
     borderRadius: 8,
-    color: "#fffefe",
   },
-  multiline: {
-    marginTop: 10,
-    marginBottom: 10,
-    height: 100,
-    textAlignVertical: "top",
+  inputError: {
+    borderColor: "red",
   },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 20,
-    color: "#fffefe",
-    textAlign: "center",
+  error: {
+    color: "red",
+    fontSize: 12,
+    marginTop: 2,
   },
-  switchContainer: {
-    flexDirection: "row",
+  button: {
+    marginTop: 14,
+    paddingVertical: 12,
+    borderRadius: 10,
+    backgroundColor: "black",
     alignItems: "center",
-    justifyContent: "space-between",
-    marginTop: 20,
-    paddingHorizontal: 10,
   },
-  switchLabel: {
+  buttonText: {
+    color: "white",
     fontSize: 16,
-    color: "#fffefe",
+    fontWeight: "600",
   },
 });
