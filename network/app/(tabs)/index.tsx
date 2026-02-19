@@ -27,6 +27,7 @@ type Post = {
 export default function HomeScreen() {
   const [data, setData] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
   const fetchData = async (limit = 10) => {
     try {
       const response = await fetch(
@@ -52,10 +53,23 @@ export default function HomeScreen() {
     );
   }
 
+  const handleRefresh = async () => {
+    setRefreshing(true);
+    await fetchData(20);
+    setRefreshing(false);
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.ListContainer}>
         <FlatList
+          ListHeaderComponent={() => (
+            <Text
+              style={{ fontSize: 24, fontWeight: "bold", marginBottom: 16 }}
+            >
+              Posts
+            </Text>
+          )}
           data={data}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
@@ -64,6 +78,8 @@ export default function HomeScreen() {
               <Text>{item.body}</Text>
             </View>
           )}
+          refreshing={refreshing}
+          onRefresh={handleRefresh}
         />
       </View>
     </SafeAreaView>
