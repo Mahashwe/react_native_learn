@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TextInput,
   View,
+  Text,
 } from "react-native";
 
 import { HelloWave } from "@/components/hello-wave";
@@ -18,11 +19,23 @@ export default function HomeScreen() {
   return (
     <View style={styles.container}>
       <SafeAreaView>
+        <View>
+          <Text style={styles.title}>Welcome to the Tabs App!</Text>
+        </View>
         <TextInput
           style={styles.input}
           placeholder="Username"
           autoCapitalize="none"
         />
+
+        <TextInput
+          style={[styles.input, styles.multiline]}
+          placeholder="Message"
+          multiline
+          numberOfLines={4}
+          autoCapitalize="none"
+        />
+
         <TextInput
           style={styles.input}
           placeholder="Password"
@@ -50,5 +63,18 @@ const styles = StyleSheet.create({
     padding: 12,
     borderRadius: 8,
     color: "#fffefe",
+  },
+  multiline: {
+    marginTop: 10,
+    marginBottom: 10,
+    height: 100,
+    textAlignVertical: "top",
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 20,
+    color: "#fffefe",
+    textAlign: "center",
   },
 });
