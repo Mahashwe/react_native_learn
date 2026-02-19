@@ -6,6 +6,7 @@ import {
   TextInput,
   View,
   Text,
+  Switch,
 } from "react-native";
 
 import { HelloWave } from "@/components/hello-wave";
@@ -14,8 +15,10 @@ import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Link } from "expo-router";
+import { useState } from "react";
 
 export default function HomeScreen() {
+  const [isDarkMode, setIsDarkMode] = useState(false);
   return (
     <View style={styles.container}>
       <SafeAreaView>
@@ -43,6 +46,15 @@ export default function HomeScreen() {
           autoCapitalize="none"
         />
       </SafeAreaView>
+      <View style={styles.switchContainer}>
+        <Text style={styles.switchLabel}>Dark Mode</Text>
+        <Switch
+          value={isDarkMode}
+          onValueChange={() => setIsDarkMode((previousState) => !previousState)}
+          trackColor={{ false: "#484848", true: "#81b0ff" }}
+          thumbColor={isDarkMode ? "#f5dd4b" : "#f4f3f4"}
+        />
+      </View>
     </View>
   );
 }
@@ -76,5 +88,16 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     color: "#fffefe",
     textAlign: "center",
+  },
+  switchContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginTop: 20,
+    paddingHorizontal: 10,
+  },
+  switchLabel: {
+    fontSize: 16,
+    color: "#fffefe",
   },
 });
