@@ -12,7 +12,8 @@ export default function Homepage() {
     >
       <Text>Home Page </Text>
       <Link href={"/about"}>Go to About Page</Link>
-      <Link href={"/profile/index"}>Go to Profile Page</Link>
+      <Link href={"/profile"}>Go to Profile Page</Link>
+      <Link href={"/products"}>Go to Products Page</Link>
     </View>
   );
 }
